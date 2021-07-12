@@ -53,9 +53,10 @@ namespace EaglesJungscharen.Azure.Functions
 
                 // more payment data
                 Reference = data.ReferenceNumber,
-                UnstructuredMessage = data.InfoText
+                UnstructuredMessage = data.InfoText,
+                
             };
-
+            bill.Format.Language = Language.DE;
             // Generate QR bill
             byte[] svg = QRBill.Generate(bill);
 
