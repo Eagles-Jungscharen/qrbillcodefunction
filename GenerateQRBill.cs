@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using EaglesJungscharen.Azure.Model;
 using Codecrete.SwissQRBill.Generator;
+using Codecrete.SwissQRBill.Generator.Canvas;
 
 namespace EaglesJungscharen.Azure.Functions
 {
@@ -20,7 +21,7 @@ namespace EaglesJungscharen.Azure.Functions
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
-
+            bool asPNG = req.Query.ContainsKey("png") && req.Query["png"]== "1";
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             InputBill data = JsonConvert.DeserializeObject<InputBill>(requestBody);
             if (data == null) {
@@ -52,18 +53,32 @@ namespace EaglesJungscharen.Azure.Functions
                 },
 
                 // more payment data
-                Reference = data.ReferenceNumber,
                 UnstructuredMessage = data.InfoText,
                 
             };
+            if (data.ReferenceNumber != null) { 
+                bill.CreateAndSetCreditorReference(data.ReferenceNumber);
+            }
+            log.LogInformation("ReferenceNumber {0}", data.ReferenceNumber);
             bill.Format.Language = Language.DE;
             // Generate QR bill
-            byte[] svg = QRBill.Generate(bill);
+            if (asPNG) {
+                using (PNGCanvas canvas = new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 300, "Arial"))
+                {
+                    QRBill.Draw(bill, canvas);
+                    byte[] png = canvas.ToByteArray();
+                    return new FileContentResult(png, "image/png") {
+                        FileDownloadName = "qrbill.png"
+                    };
+                }
+            } else {
+                byte[] svg = QRBill.Generate(bill);
 
-            // Save generated SVG file
-            return new FileContentResult(svg, "image/svg+xml") {
-                FileDownloadName = "qrbill.svg"
-            };
+                // Save generated SVG file
+                return new FileContentResult(svg, "image/svg+xml") {
+                    FileDownloadName = "qrbill.svg"
+                };
+            }
         }
     }
 }
