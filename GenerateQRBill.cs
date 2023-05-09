@@ -17,7 +17,7 @@ namespace EaglesJungscharen.Azure.Functions
     {
         [FunctionName("GenerateQRBill")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
@@ -40,7 +40,7 @@ namespace EaglesJungscharen.Azure.Functions
                 },
 
                 // payment data
-                Amount = data.Amount,
+                
                 Currency = data.Currency,
                 
                 // debtor data
@@ -56,6 +56,9 @@ namespace EaglesJungscharen.Azure.Functions
                 UnstructuredMessage = data.InfoText,
                 
             };
+            if (data.Amount.HasValue) {
+                bill.Amount = data.Amount.Value;
+            }
             if (data.ReferenceNumber != null) { 
                 bill.CreateAndSetCreditorReference(data.ReferenceNumber);
             }
