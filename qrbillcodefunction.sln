@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "qrbillcodefunction", "qrbillcodefunction.csproj", "{8AA934A3-30D0-30A6-C7DE-17EDBCE71898}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8AA934A3-30D0-30A6-C7DE-17EDBCE71898}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AA934A3-30D0-30A6-C7DE-17EDBCE71898}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AA934A3-30D0-30A6-C7DE-17EDBCE71898}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AA934A3-30D0-30A6-C7DE-17EDBCE71898}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F007AF7B-C8DD-4BF4-B558-70B98E7E3297}
+	EndGlobalSection
+EndGlobal
